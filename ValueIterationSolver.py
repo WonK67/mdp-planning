@@ -48,17 +48,16 @@ class ValueIterationSolver:
                 #Bellman update, update the utility values
                 v1[s] = min([sum([t.probability * (t.cost + v[t.next_state]) for t in self.get_transitions(s, a)]) for a in self.get_actions(s)])
                 delta = max(delta, abs(v1[s] - v[s]))
-                print(delta)
-            if delta < 0.1:
+            print(delta)
+            if delta < 0.01:
                 return v
 
     def best_policy(self, v):
-        states =  self.states
-        actions = self.actions
+        states = self.states
         pi = {}
         for s in states:
-            pi[s] = max(self.get_actions(s), key=lambda a: self.expected_utility(a, s, v))
+            pi[s] = min(self.get_actions(s), key=lambda a: self.expected_utility(a, s, v))
         return pi
 
     def expected_utility(self, a, s, v):
-        return sum([t.probability * v[t.next_state] for t in self.get_transitions(s, a)])
+        return sum([t.probability * (t.cost + v[t.next_state]) for t in self.get_transitions(s, a)])
