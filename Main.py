@@ -15,5 +15,4 @@ print("Successfully parsed!")
 # print("Execution time (in s): ", value_iteration_solver.last_run_duration)
 
 lao_star_solver = LAOStarSolver(problem.states, problem.transitions, problem.initial_state, problem.goal_state)
-print
 lao_star_solver.run()
