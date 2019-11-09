@@ -1,20 +1,19 @@
 from Transition import Transition
-
+import timeit
 
 class ValueIterationSolver:
 
     states = []
     transitions = []
     actions = []
+    last_run_duration = 0
+    last_run_v_function = {}
+    last_run_policy = {}
 
     def __init__(self, states, transitions):
         self.states = states
         self.transitions = transitions
         self.actions = self.get_actions_available()
-        v = self.value_iteration()
-        pi = self.best_policy(v)
-        print(v)
-        print(pi)
 
     def get_transitions(self, state, action):
         state_transitions = []
@@ -38,6 +37,13 @@ class ValueIterationSolver:
                     actions.append(transition.action_name)
         return actions
 
+    def run(self):
+        start = timeit.default_timer()
+        self.last_run_v_function = self.value_iteration()
+        self.last_run_policy = self.best_policy(self.last_run_v_function)
+        stop = timeit.default_timer()
+        self.last_run_duration = stop - start
+
     def value_iteration(self):
         states = self.states
         v1 = {s: 0 for s in states}
@@ -46,9 +52,8 @@ class ValueIterationSolver:
             delta = 0
             for s in states:
                 #Bellman update, update the utility values
-                v1[s] = min([sum([t.probability * (t.cost + v[t.next_state]) for t in self.get_transitions(s, a)]) for a in self.get_actions(s)])
+                v1[s] = min(self.expected_utility(a, s, v) for a in self.get_actions(s))
                 delta = max(delta, abs(v1[s] - v[s]))
-            print(delta)
             if delta < 0.01:
                 return v
 

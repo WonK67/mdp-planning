@@ -12,16 +12,11 @@ class ProblemParser:
 
     def __init__(self, file_path):
         file = open(file_path)
-        print("Carregando arquivo ", file.name)
         text = file.read()
         self.states = self.get_items_from_until(text, "states", "endstates")
-        print(self.states)
         self.initial_state = self.get_items_from_until(text, "initialstate", "endinitialstate")
-        print(self.initial_state)
         self.goal_state = self.get_items_from_until(text, "goalstate", "endgoalstate")
-        print(self.goal_state)
         self.transitions = self.get_transitions(text, "action", "endaction")
-        print(self.transitions)
         self.fill_costs(self.transitions, text, "cost", "endcost")
 
     @staticmethod
