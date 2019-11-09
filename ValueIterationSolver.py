@@ -3,7 +3,7 @@ import timeit
 
 class ValueIterationSolver:
 
-    states = []
+    states = {}
     transitions = []
     actions = []
     last_run_duration = 0
@@ -45,12 +45,11 @@ class ValueIterationSolver:
         self.last_run_duration = stop - start
 
     def value_iteration(self):
-        states = self.states
-        v1 = {s: 0 for s in states}
+        v1 = {s: 0 for s in self.states}
         while True:
             v = v1.copy()
             delta = 0
-            for s in states:
+            for s in self.states:
                 #Bellman update, update the utility values
                 v1[s] = min(self.expected_utility(a, s, v) for a in self.get_actions(s))
                 delta = max(delta, abs(v1[s] - v[s]))

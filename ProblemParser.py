@@ -14,8 +14,8 @@ class ProblemParser:
         file = open(file_path)
         text = file.read()
         self.states = self.get_items_from_until(text, "states", "endstates")
-        self.initial_state = self.get_items_from_until(text, "initialstate", "endinitialstate")
-        self.goal_state = self.get_items_from_until(text, "goalstate", "endgoalstate")
+        self.initial_state = self.get_items_from_until(text, "initialstate", "endinitialstate")[0]
+        self.goal_state = self.get_items_from_until(text, "goalstate", "endgoalstate")[0]
         self.transitions = self.get_transitions(text, "action", "endaction")
         self.fill_costs(self.transitions, text, "cost", "endcost")
 
