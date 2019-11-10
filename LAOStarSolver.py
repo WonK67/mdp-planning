@@ -32,11 +32,8 @@ class LAOStarSolver:
         while self.end_state not in z:
             bestChild = self.getBestChild(fringe_states, g_line)
             z.append(bestChild)
-            for state in z:
-                if state not in expanded_states:
-                    tip_state = state
-                    break
-            self.expandGLine(tip_state, g_line, expanded_states, fringe_states)
+
+            self.expandGLine(bestChild, g_line, expanded_states, fringe_states)
 
             z_transitions = self.filterAvailableTransitions(g_line, self.transitions)
             z_values = g_line
