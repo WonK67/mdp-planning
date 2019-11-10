@@ -9,11 +9,16 @@ class ValueIterationSolver:
     last_run_duration = 0
     last_run_v_function = {}
     last_run_policy = {}
+    initial_v = None
 
-    def __init__(self, states, transitions):
+    def __init__(self, states, transitions, initial_v = None):
         self.states = states
         self.transitions = transitions
         self.actions = self.get_actions_available()
+        if initial_v is None:
+            self.initial_v = {s: 0 for s in self.get_states_from_transitions()}
+        else:
+            self.initial_v = initial_v
 
     def get_transitions(self, state, action):
         state_transitions = []
@@ -45,7 +50,7 @@ class ValueIterationSolver:
         self.last_run_duration = stop - start
 
     def value_iteration(self):
-        v1 = {s: 0 for s in self.states}
+        v1 = self.initial_v
         while True:
             v = v1.copy()
             delta = 0
@@ -65,3 +70,12 @@ class ValueIterationSolver:
 
     def expected_utility(self, a, s, v):
         return sum([t.probability * (t.cost + v[t.next_state]) for t in self.get_transitions(s, a)])
+
+    def get_states_from_transitions(self):
+        states = []
+        for transition in self.transitions:
+            if transition.current_state not in states:
+                states.append(transition.current_state)
+            if transition.next_state not in states:
+                states.append(transition.next_state)
+        return states
