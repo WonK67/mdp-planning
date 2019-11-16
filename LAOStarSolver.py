@@ -49,6 +49,7 @@ class LAOStarSolver:
             return self.explore_tip_states(outer_graph, policy, tip_states)
         else:
             print("g_line (", len(outer_graph), ") ")
+            print("g_line (", len(convergence_test_solution), ") ")
             self.fill_final_policy(convergence_test_solution, policy)
             return convergence_test_solution
 

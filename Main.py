@@ -2,7 +2,7 @@ from ProblemParser import ProblemParser
 from ValueIterationSolver import ValueIterationSolver
 from LAOStarSolver import LAOStarSolver
 
-problem_file = "resources/DeterministicGoalState/navigation_2.net"
+problem_file = "resources/RandomGoalState/navigation_1.net"
 print("------------------Parsing problem ", problem_file, "------------------")
 problem = ProblemParser(problem_file)
 print("Successfully parsed!")
